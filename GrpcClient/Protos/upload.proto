@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+option csharp_namespace = "GrpcServer";
+
+package Upload;
+
+service Upload {
+
+rpc UploadFile(stream uploadFileRequest) returns(uploadFileResponse);
+
+
+rpc UploadFileStream(stream uploadFileRequest) returns(stream uploadFileResponse);
+
+rpc SaveFile(uploadFileRequest) returns(uploadFileResponse);
+}
+
+message uploadFileResponse{
+	string fileId=1;
+	uint32 fileSize=2;
+}
+
+message uploadFileRequest {
+oneof data {
+    ImageInfo info = 1;
+    bytes chunk_data = 2;
+  };
+}
+
+
+
+
+message ImageInfo {
+  string fileName = 1;
+  string image_type = 2;
+}
